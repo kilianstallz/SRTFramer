@@ -10,21 +10,21 @@ import (
 	"strconv"
 )
 
-type Srtframer struct {
+type SrtFramer struct {
 	splitter SplitterService
 	files    FileService
 }
 
 // TODO: File service should be repository
 
-func NewSrtframer(splitter SplitterService, files FileService) *Srtframer {
-	return &Srtframer{
+func NewSrtFramer(splitter SplitterService, files FileService) *SrtFramer {
+	return &SrtFramer{
 		splitter: splitter,
 		files:    files,
 	}
 }
 
-func (s *Srtframer) Execute(videoPath, strPath string) error {
+func (s *SrtFramer) Execute(videoPath, strPath string) error {
 	err := s.files.CreateOutDir()
 	if err != nil {
 		return err
@@ -67,9 +67,9 @@ func (s *Srtframer) Execute(videoPath, strPath string) error {
 	// TODO: Extract into service
 	for _, subtitle := range subtitles {
 		nr := subtitle.Number
-		reglat := regexp.MustCompile(`\[latitude: ([0-9.]+)\]`)
-		reglong := regexp.MustCompile(`\[longitude: ([0-9.]+)\]`)
-		regalt := regexp.MustCompile(`\[altitude: ([0-9.]+)\]`)
+		reglat := regexp.MustCompile(`\[latitude: ([0-9.]+)]`)
+		reglong := regexp.MustCompile(`\[longitude: ([0-9.]+)]`)
+		regalt := regexp.MustCompile(`\[altitude: ([0-9.]+)]`)
 		lat := reglat.FindStringSubmatch(subtitle.Text)
 		long := reglong.FindStringSubmatch(subtitle.Text)
 		alt := regalt.FindStringSubmatch(subtitle.Text)

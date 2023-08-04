@@ -6,6 +6,8 @@ import (
 	"srtframer/internal/services"
 )
 
+var Version string = "development"
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "srtframer",
@@ -16,16 +18,16 @@ examples and usage of using your application. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
+	Version: Version,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
 		splitter := services.NewSplitterService()
 		fileService := services.NewFileService(outPath)
-		framer := services.NewSrtframer(splitter, fileService)
+		framer := services.NewSrtFramer(splitter, fileService)
 
 		err := framer.Execute(videoFilePath, srtFilePath)
 		cobra.CheckErr(err)
-
 	},
 }
 
