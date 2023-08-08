@@ -3,9 +3,13 @@
 before:
   hooks:
     # You may remove this if you don't use go modules.
+    - go mod download
     - go mod tidy
+    - go test -race ./...
+
 builds:
-  - main: ./cmd/srtframer
+  - id: default
+    main: ./cmd/srtframer
     env:
       - CGO_ENABLED=0
     goos:
@@ -14,6 +18,19 @@ builds:
       - darwin
     ldflags:
         - -s -w -X srtframer/cmd.Version={{.Version}}
+
+release:
+  ids:
+    - default
+  draft: true
+  replace_existing_draft: true
+  target_commitish: "{{ .Commit }}"
+  prerelease: auto
+  mode: replace
+  header: |
+    ## ⚙️ The `{{ .Tag }}` release
+  disable: false
+  skip_upload: false
 
 archives:
   - format: tar.gz
@@ -33,6 +50,8 @@ checksum:
   name_template: 'checksums.txt'
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
+
+
 changelog:
   sort: asc
   filters:
