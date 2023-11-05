@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/barasher/go-exiftool v1.10.0
 	github.com/konifar/go-srt v1.0.0
-	github.com/spf13/cobra v1.7.0
+	github.com/spf13/cobra v1.8.0
 )
 
 require (
